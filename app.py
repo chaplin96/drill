@@ -27,5 +27,6 @@ def serve_manifest():
     return send_file('manifest.json', mimetype='application/manifest+json')
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0")
-    # app.run(debug=True, host="0.0.0.0", port=80)
+    # app.run(debug=True, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0", port=80)
+    # sudo /home/g3ma510_96ki/.pyenv/versions/3.10.0/bin/python3.10 app.py
