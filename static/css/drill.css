@@ -1,0 +1,157 @@
+/* しずかなインターネットみたいなデザインにしたい https://sizu.me/ */
+
+@media screen and (max-width:769px) {
+    html {
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (min-width:770px) {
+    html {
+        width: 100%;
+        max-width: 570px;
+        height: auto;
+        margin: 0 auto;
+    }
+}
+
+body {
+    color: #636363;
+    font-family: "MS Pゴシック", sans-serif;
+}
+
+::placeholder {
+    color: #B8B8B8;
+}
+
+.main {
+    margin: 0 auto;
+    padding: 0 0.3rem;
+}
+
+.title {
+    font-size: 1.45rem;
+    text-align: center;
+    color: #000;
+}
+
+
+.description {
+    font-size: 1.25rem;
+    max-width: 410px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.line {
+    margin: 3rem 0;
+}
+
+
+.btn-container {
+    text-align: center;
+    margin-top: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 1.25rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    color: #636363;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.disabled {
+    background-color: #ccc;
+    border: 1px solid #ccc;
+    color: #fff;
+    cursor: default;
+    pointer-events: none;
+}
+
+.timer-box {
+    display: flex;
+    justify-content: right;
+}
+
+.question {
+    margin: 2rem 0;
+    font-size: 1.25rem;
+}
+
+.answer-box {
+    margin: 0 0.2rem;
+}
+
+.answer-input {
+    width: 100%;
+    border: 1px solid #ccc;
+    font-size: 1.0rem;
+}
+
+.answer-history {
+    margin: 0 0.5rem 1rem;
+}
+
+.comment-box {
+    border: 1px solid #ccc;
+    border-radius: 1.5rem;
+    padding: 1rem;
+}
+
+.comment {
+    font-size: 1.5rem;
+}
+
+
+.popup-overlay {
+    display: none;
+    /* display: block; */
+    z-index: 99999;
+    background-color: #00000070;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+.popup-window {
+    max-width: 560px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.popup-text {
+    margin: 0;
+    text-align: center;
+}
+
+.reaction {
+    text-align: center;
+    font-size: 30px;
+    height: 38px;
+}
+
+.fadeout {
+    opacity: 0;
+    transition: all .5s ease;
+}
+
+.tips {
+    font-size: 1.0rem;
+    max-width: 310px;
+    margin: 2rem auto;
+}

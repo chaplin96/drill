@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head prefix="og: http://ogp.me/ns#">
+    <meta charset="UTF-8">
+    <title>大喜利ドリル</title>
+
+    <!-- Google tag (gtag.js) -->
+
+    <!-- OGP -->
+    <meta property="og:title" content="大喜利ドリル">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://faniest.com">
+    <meta property="og:description" content="大喜利ドリル">
+    <link rel="stylesheet" href="/static/css/drill.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <!-- pwa -->
+    <meta name="theme-color" content="#317EFB" />
+    <link rel="icon" href="{{url_for('static', filename='icons/192x192.png')}}" type="image/png">
+    <link rel="apple-touch-icon" href="{{url_for('static', filename='icons/192x192.png')}}" type="image/png">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register("/sw.js").then(function (registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function (err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="main" id="main">
+        <div class="timer-box">
+            <div class="timer-icon">⏱</div>
+            <div class="timer" id="timer">2:00</div>
+        </div>
+
+        <div class="question" id="question"></div>
+        <div class="answer-box">
+            <textarea id="answer-input" class="answer-input" placeholder="回答欄" rows="5"></textarea>
+        </div>
+
+        <div class="btn-container">
+            <a href="oogiri/drill" class="btn" id="answer-btn">回答</a>
+        </div>
+
+        <div class="reaction" id="reaction"></div>
+
+        <div>＜回答履歴＞</div>
+        <div class="answer-history" id="answer-history"></div>
+
+        <div class="comment-container" id="comment-container"></div>
+        <div class="btn-container" id="next-btn-container"></div>
+
+        <div class="popup-overlay">
+            <div class="popup-window">
+                <div class="popup-text">タイムアップ！<br>お疲れ様😊</div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script type="text/javascript">
+        const oogiri = {{ oogiri | tojson }};
+
+        // 変数の初期化
+        const answerButton = document.querySelector('.btn');
+        const answerHistory = document.getElementById('answer-history');
+        const reaction = document.getElementById('reaction');
+
+
+        const question = document.getElementById('question');
+        const commentContainer = document.getElementById('comment-container');
+
+        question.textContent = oogiri.question;
+        commentContainer.innerHTML = '';
+        answerHistory.innerHTML = '';
+        answerButton.classList.remove('disabled');
+        reaction.innerHTML = '';
+
+        // タイマーを設置
+        const timer = document.getElementById('timer');
+        let time = 120;
+        let timerId = setInterval(() => {
+            time--;
+            timer.textContent = `${Math.floor(time / 60)}:${String(time % 60).padStart(2, '0')}`;
+            if (time === 0) {
+                clearInterval(timerId);
+
+                // タイムアップのポップアップを表示
+                const popupOverlay = document.querySelector('.popup-overlay');
+                popupOverlay.style.display = 'block';
+
+                // 1秒後にポップアップを消す
+                setTimeout(() => {
+                    popupOverlay.style.display = 'none';
+                }, 1000);
+
+
+                // 回答ボタンをdisabledにする
+                answerButton.classList.add('disabled');
+
+
+                // コメントを表示
+                const commentBox = document.createElement('div');
+                commentBox.classList.add('comment-box');
+
+                const comment = document.createElement('div');
+                comment.classList.add('comment');
+                commentBox.appendChild(comment);
+
+                const answerSampleTitle = document.createElement('div');
+                answerSampleTitle.textContent = '(回答例)';
+                commentBox.appendChild(answerSampleTitle);
+
+                // anwer_samplesを表示する
+                oogiri.answer_samples.forEach((answer_sample) => {
+                    const answerSample = document.createElement('li');
+                    answerSample.textContent = answer_sample;
+                    commentBox.appendChild(answerSample);
+                });
+                commentContainer.appendChild(commentBox);
+
+                // もう一回ボタンを表示
+                const nextButton = document.createElement('a');
+                nextButton.textContent = '次の問題';
+                nextButton.setAttribute('href', '/oogiri/drill');
+                nextButton.classList.add('btn');
+                // nextButton.addEventListener('click', () => {
+                //     if (qi === oogiriList.length - 1) {
+                //         // 終了画面へ遷移
+                //         window.location.href = '/oogiri/finish';
+                //     } else {
+                //         qi += 1;
+                //         displayOogiri(oogiriList[qi]);
+                //         nextButton.remove();
+                //     }
+                // });
+                const nextButtonContainer = document.getElementById('next-btn-container');
+                nextButtonContainer.appendChild(nextButton);
+
+            }
+        }, 1000);
+
+
+        //  回答ボタンが押されたら回答履歴に追加する
+        answerButton.addEventListener('click', () => {
+            event.preventDefault(); // デフォルトのリンク動作を阻止
+
+            // 回答ボタン押す度に笑った絵文字が出るアニメーション
+            reaction.textContent += '🤣';
+            reaction.classList.remove('fadeout');
+            // 1秒後に絵文字を非表示にする
+            setTimeout(() => {
+                reaction.classList.add('fadeout');
+            }, 1000);
+
+
+            const answerInput = document.getElementById('answer-input');
+            const newAnswer = document.createElement('div');
+            newAnswer.textContent = answerInput.value;
+            answerHistory.appendChild(newAnswer);
+            answerInput.value = '';
+
+        });
+
+
+
+    </script>
+
+</body>
