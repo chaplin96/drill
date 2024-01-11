@@ -48,7 +48,7 @@
         </div>
 
         <div class="btn-container">
-            <a href="oogiri/drill" class="btn" id="answer-btn">回答</a>
+            <a href="#" class="btn" id="answer-btn">回答</a>
         </div>
 
         <div class="reaction" id="reaction"></div>
@@ -132,18 +132,8 @@
                 // もう一回ボタンを表示
                 const nextButton = document.createElement('a');
                 nextButton.textContent = '次の問題';
-                nextButton.setAttribute('href', '/oogiri/drill');
+                nextButton.setAttribute('href', '/');
                 nextButton.classList.add('btn');
-                // nextButton.addEventListener('click', () => {
-                //     if (qi === oogiriList.length - 1) {
-                //         // 終了画面へ遷移
-                //         window.location.href = '/oogiri/finish';
-                //     } else {
-                //         qi += 1;
-                //         displayOogiri(oogiriList[qi]);
-                //         nextButton.remove();
-                //     }
-                // });
                 const nextButtonContainer = document.getElementById('next-btn-container');
                 nextButtonContainer.appendChild(nextButton);
 
