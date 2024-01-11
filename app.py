@@ -28,5 +28,19 @@ def serve_manifest():
 
 if __name__ == "__main__":
     # app.run(debug=True, host="0.0.0.0")
-    app.run(debug=True, host="0.0.0.0", port=80)
+    app.run(debug=True, host="0.0.0.0", port=5000)
     # sudo /home/g3ma510_96ki/.pyenv/versions/3.10.0/bin/python3.10 app.py
+    
+"""
+■起動
+python app.py
+or
+gunicorn app:app
+
+■デーモンで起動
+nohup gunicorn app:app &
+
+■停止
+ps aux | grep gunicorn | awk '{ print "kill -9", $2 }' | sh
+
+"""
