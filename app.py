@@ -7,14 +7,21 @@ import json
 
 app = Flask(__name__)
 
+with open("data/oogiri_20240121.json", "r", encoding="utf-8") as f:
+    tmp_oogiri_list = json.load(f)
+
 @app.route("/")
-def oogiri_drill():
-    # TODO 大喜利回答例、スコア高いのを表示した方が参考になるよな
-    with open("data/oogiri.json", "r", encoding="utf-8") as f:
-        tmp_oogiri_list = json.load(f)
-    
+def oogiri_drill():    
     oogiri = random.choice(tmp_oogiri_list)
-    oogiri["answer_samples"] = random.sample(oogiri["answer_samples"], 3)
+    best_answers = oogiri["answer_samples"]["3"]
+    if len(best_answers) > 3:
+        # 3点の回答が3つ以上ある場合は、3点の回答を表示する
+        oogiri["answer_samples"] = random.sample(oogiri["answer_samples"]["3"], 3)
+        print("a")
+    else:
+        # 3点の回答が2つ以下の場合は、3点の回答と2点の回答を表示する
+        oogiri["answer_samples"] = best_answers + random.sample(oogiri["answer_samples"]["2"], 3-len(best_answers))
+        print("b")
 
     return render_template("drill.html", oogiri=oogiri)
 
