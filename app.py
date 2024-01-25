@@ -12,16 +12,15 @@ with open("data/oogiri_20240121.json", "r", encoding="utf-8") as f:
 
 @app.route("/")
 def oogiri_drill():    
-    oogiri = random.choice(tmp_oogiri_list)
-    best_answers = oogiri["answer_samples"]["3"]
+    tmp_oogiri = random.choice(tmp_oogiri_list)
+    oogiri = {"question":tmp_oogiri["question"]}
+    best_answers = tmp_oogiri["answer_samples"]["3"]
     if len(best_answers) > 3:
         # 3点の回答が3つ以上ある場合は、3点の回答を表示する
-        oogiri["answer_samples"] = random.sample(oogiri["answer_samples"]["3"], 3)
-        print("a")
+        oogiri["answer_samples"] = random.sample(tmp_oogiri["answer_samples"]["3"], 3)
     else:
         # 3点の回答が2つ以下の場合は、3点の回答と2点の回答を表示する
-        oogiri["answer_samples"] = best_answers + random.sample(oogiri["answer_samples"]["2"], 3-len(best_answers))
-        print("b")
+        oogiri["answer_samples"] = best_answers + random.sample(tmp_oogiri["answer_samples"]["2"], 3-len(best_answers))
 
     return render_template("drill.html", oogiri=oogiri)
 
